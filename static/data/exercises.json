@@ -1,0 +1,59 @@
+{
+  "exercises": [
+    {
+      "id": 1,
+      "type": "correction",
+      "question": "*Tiene tantos hijos como hijos",
+      "answer": "Tiene tantos hijos como hermanos",
+      "options": null,
+      "difficulty": 1,
+      "category": "redundancia",
+      "explanation": "No se puede comparar un elemento consigo mismo. Debe comparar elementos diferentes.",
+      "hint": "Compara 'hijos' con otro sustantivo familiar"
+    },
+    {
+      "id": 2,
+      "type": "correction",
+      "question": "*Eres más alto que vosotros",
+      "answer": "Eres más alto que ellos",
+      "options": null,
+      "difficulty": 1,
+      "category": "concordancia",
+      "explanation": "No se puede comparar singular (tú) con plural (vosotros). Debe mantener concordancia numérica.",
+      "hint": "Cambia 'vosotros' por un pronombre plural de tercera persona"
+    },
+    {
+      "id": 3,
+      "type": "correction",
+      "question": "*Lees más que lees",
+      "answer": "Lees más que escribes",
+      "options": null,
+      "difficulty": 1,
+      "category": "redundancia",
+      "explanation": "La comparación debe ser entre acciones diferentes.",
+      "hint": "Compara 'leer' con otra actividad"
+    },
+    {
+      "id": 4,
+      "type": "completion",
+      "question": "Tiene ___ libros que tiempo para leer",
+      "answer": "más",
+      "options": null,
+      "difficulty": 1,
+      "category": "cuantificadores",
+      "explanation": "Usamos 'más' para indicar superioridad en cantidad.",
+      "hint": "Indica una cantidad mayor"
+    },
+    {
+      "id": 5,
+      "type": "multiple",
+      "question": "Se esfuerzan más ______ lo necesario",
+      "answer": "de",
+      "options": ["de", "que", "a", "por"],
+      "difficulty": 2,
+      "category": "preposiciones",
+      "explanation": "Después de 'más/menos' usamos 'de' cuando va seguido de 'lo' + adjetivo.",
+      "hint": "Preposición que introduce el término de comparación con 'lo'"
+    }
+  ]
+}

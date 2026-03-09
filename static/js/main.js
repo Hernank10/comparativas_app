@@ -1,0 +1,8 @@
+let userData={correctAnswers:0,streak:0,masteryLevel:0};
+document.addEventListener('DOMContentLoaded',function(){if(window.location.pathname.includes('/progreso')){loadUserProgress();}});
+function loadUserProgress(){fetch('/api/progreso').then(response=>response.json()).then(data=>{userData=data.stats;updateProgressCharts(data);});}
+function showToast(message,type='info'){let toastContainer=document.createElement('div');toastContainer.style.position='fixed';toastContainer.style.top='20px';toastContainer.style.right='20px';toastContainer.style.zIndex='9999';toastContainer.innerHTML='<div class="toast align-items-center text-white bg-'+type+' border-0 show" role="alert"><div class="d-flex"><div class="toast-body"><i class="bi bi-'+(type==='success'?'check-circle':type==='danger'?'exclamation-circle':'info-circle')+'"></i> '+message+'</div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div></div>';document.body.appendChild(toastContainer);setTimeout(()=>{toastContainer.remove();},3000);}
+function isValidComparative(text){let patterns=[/más|menos|que|como|de lo|tan|tanto/i,/\b(más|menos)\s+(.*?)\s+(que|de)\b/i,/\btan\s+(.*?)\s+como\b/i];return patterns.some(pattern=>pattern.test(text));}
+window.onerror=function(msg,url,lineNo,columnNo,error){console.error('Error:',msg,'en',url,'línea',lineNo);showToast('Ha ocurrido un error. Por favor, recarga la página.','danger');return false;};
+window.addEventListener('online',()=>{showToast('Conexión restaurada','success');});
+window.addEventListener('offline',()=>{showToast('Sin conexión. Los cambios se guardarán localmente.','warning');});

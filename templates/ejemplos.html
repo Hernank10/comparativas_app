@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-4">
+    <h1 class="mb-4">Mis Ejemplos</h1>
+    <div class="row">
+        <div class="col-md-6"><div class="card"><div class="card-body"><h5>Crear Nuevo Ejemplo</h5><div class="mb-3"><textarea class="form-control" id="newExample" rows="3" placeholder="Ej: Tiene más paciencia que su hermano..."></textarea></div><button class="btn btn-success" onclick="saveExample()"><i class="bi bi-save"></i> Guardar Ejemplo</button></div></div></div>
+        <div class="col-md-6"><div class="card"><div class="card-body"><h5>Ejemplos Guardados</h5><div id="examplesList" class="list-group"></div></div></div></div>
+    </div>
+</div>
+<script>
+function saveExample(){let text=document.getElementById('newExample').value;if(text){fetch('/api/ejemplos',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:text,public:false})}).then(()=>{location.reload();});}}
+fetch('/api/ejemplos').then(r=>r.json()).then(data=>{let list=document.getElementById('examplesList');list.innerHTML='';data.forEach(e=>{list.innerHTML+='<div class="list-group-item">'+e.text+'<small class="text-muted d-block">Por: '+e.author+' - '+e.created_at+'</small></div>';});});
+</script>
+{% endblock %}

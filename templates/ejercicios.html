@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Ejercicios - Práctica de Comparativas{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <h1 class="mb-4">Ejercicios Interactivos</h1>
+    <div class="btn-group mb-4" role="group">
+        <button type="button" class="btn btn-outline-primary active" onclick="loadExercise('correction')"><i class="bi bi-pencil-square"></i> Corrección</button>
+        <button type="button" class="btn btn-outline-primary" onclick="loadExercise('completion')"><i class="bi bi-input-cursor-text"></i> Completación</button>
+        <button type="button" class="btn btn-outline-primary" onclick="loadExercise('multiple')"><i class="bi bi-ui-checks"></i> Selección Múltiple</button>
+    </div>
+    <div class="d-flex justify-content-end mb-3"><div class="badge bg-info text-white p-3"><i class="bi bi-clock"></i> <span id="timer">00:00</span></div></div>
+    <div class="card shadow-sm" id="exerciseCard">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="badge bg-primary" id="difficultyBadge">Nivel 1</span>
+                <span class="badge bg-secondary" id="categoryBadge">General</span>
+            </div>
+            <h5 class="card-title mb-4" id="exerciseQuestion"></h5>
+            <div id="correctionInput" class="exercise-input"><label class="form-label">Tu corrección:</label><input type="text" class="form-control" id="correctionAnswer" placeholder="Escribe la oración corregida..."></div>
+            <div id="completionInput" class="exercise-input" style="display: none;"><label class="form-label">Completa los espacios:</label><input type="text" class="form-control mb-2" id="completionAnswer" placeholder="Palabra faltante..."></div>
+            <div id="multipleInput" class="exercise-input" style="display: none;"><label class="form-label">Selecciona la opción correcta:</label><div id="multipleOptions" class="mt-2"></div></div>
+            <div class="mt-4">
+                <button class="btn btn-primary" onclick="submitAnswer()"><i class="bi bi-check-lg"></i> Verificar</button>
+                <button class="btn btn-outline-secondary ms-2" onclick="skipExercise()"><i class="bi bi-skip-forward"></i> Saltar</button>
+                <button class="btn btn-sm btn-outline-info ms-2" onclick="showHint()"><i class="bi bi-lightbulb"></i> Pista</button>
+            </div>
+            <div id="hint" class="alert alert-info mt-2" style="display: none;"></div>
+            <div id="feedback" class="mt-4" style="display: none;"></div>
+        </div>
+    </div>
+    <div class="mt-4 text-center"><div class="d-inline-block p-3 bg-light rounded"><i class="bi bi-fire text-danger"></i> <span id="streakDisplay">Racha actual: 0</span></div></div>
+</div>
+<script>
+let currentExercise = null; let startTime = null; let timerInterval = null;
+document.addEventListener('DOMContentLoaded',function(){loadExercise('correction');startTimer();});
+function startTimer(){startTime=new Date();timerInterval=setInterval(function(){let now=new Date();let diff=Math.floor((now-startTime)/1000);let minutes=Math.floor(diff/60);let seconds=diff%60;document.getElementById('timer').textContent=minutes.toString().padStart(2,'0')+':'+seconds.toString().padStart(2,'0');},1000);}
+function showHint(){let hintDiv=document.getElementById('hint');if(currentExercise&&currentExercise.hint){hintDiv.textContent=currentExercise.hint;hintDiv.style.display='block';}}
+function loadExercise(type){document.querySelectorAll('.btn-group .btn').forEach(btn=>btn.classList.remove('active'));event.target.classList.add('active');document.querySelectorAll('.exercise-input').forEach(el=>el.style.display='none');fetch('/api/ejercicios/'+type).then(response=>response.json()).then(data=>{currentExercise=data;document.getElementById('exerciseQuestion').textContent=data.question;document.getElementById('difficultyBadge').textContent='Nivel '+data.difficulty;document.getElementById('categoryBadge').textContent=data.category;document.getElementById('hint').style.display='none';if(type==='correction'){document.getElementById('correctionInput').style.display='block';}else if(type==='completion'){document.getElementById('completionInput').style.display='block';}else if(type==='multiple'){document.getElementById('multipleInput').style.display='block';let options=data.options;let optionsDiv=document.getElementById('multipleOptions');optionsDiv.innerHTML='';options.forEach((opt,idx)=>{optionsDiv.innerHTML+='<div class="form-check"><input class="form-check-input" type="radio" name="multipleChoice" id="opt'+idx+'" value="'+opt+'"><label class="form-check-label" for="opt'+idx+'">'+opt+'</label></div>';});}clearInterval(timerInterval);startTimer();});}
+function submitAnswer(){let answer='';let type=currentExercise.type;if(type==='correction'){answer=document.getElementById('correctionAnswer').value;}else if(type==='completion'){answer=document.getElementById('completionAnswer').value;}else if(type==='multiple'){let selected=document.querySelector('input[name="multipleChoice"]:checked');answer=selected?selected.value:'';}
+if(!answer){showFeedback('Por favor ingresa una respuesta','warning');return;}
+let timeSpent=Math.floor((new Date()-startTime)/1000);
+fetch('/api/verificar',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({exercise_id:currentExercise.id,answer:answer,time_spent:timeSpent})}).then(response=>response.json()).then(data=>{if(data.correct){showFeedback('<div class="alert alert-success"><i class="bi bi-check-circle"></i> Correcto! +10 puntos<br><small>'+data.explanation+'</small></div>','success');document.getElementById('streakDisplay').innerHTML='<i class="bi bi-fire text-danger"></i> Racha actual: '+data.streak;}else{showFeedback('<div class="alert alert-danger"><i class="bi bi-x-circle"></i> Incorrecto<br>Respuesta correcta: '+data.correct_answer+'<br><small>'+data.explanation+'</small></div>','danger');}
+setTimeout(()=>{document.querySelector('.btn-group .btn.active').click();},3000);});}
+function skipExercise(){document.querySelector('.btn-group .btn.active').click();}
+function showFeedback(message,type){let feedbackDiv=document.getElementById('feedback');feedbackDiv.innerHTML=message;feedbackDiv.style.display='block';}
+</script>
+{% endblock %}

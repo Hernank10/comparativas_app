@@ -1,0 +1,17 @@
+:root{--primary-color:#2E86C1;--secondary-color:#3498DB;--success-color:#27AE60;--danger-color:#E74C3C;--light-bg:#EBF5FB;}
+body{min-height:100vh;display:flex;flex-direction:column;}
+main{flex:1;}
+.exercise-card{border-left:4px solid var(--primary-color);transition:transform 0.3s ease,box-shadow 0.3s ease;}
+.exercise-card:hover{transform:translateY(-5px);box-shadow:0 10px 20px rgba(0,0,0,0.1);}
+.achievement-badge{background:linear-gradient(45deg,#FFD700,#FFA500);color:white;border-radius:50%;width:80px;height:80px;display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto;}
+.progress{height:10px;border-radius:5px;}
+.progress-bar{background:var(--primary-color);transition:width 0.3s ease;}
+.stat-card{background:var(--light-bg);border-radius:15px;padding:1.5rem;text-align:center;transition:transform 0.3s ease;}
+.stat-card:hover{transform:scale(1.05);}
+.stat-card h3{font-size:2.5rem;color:var(--primary-color);margin-bottom:0.5rem;}
+.exercise-input{animation:fadeIn 0.5s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.badge-info{background:var(--primary-color)!important;font-size:1.1rem;}
+.bi-fire{animation:flicker 2s infinite;}
+@keyframes flicker{0%,100%{opacity:1;}50%{opacity:0.8;}}
+@media (max-width:768px){.hero-section{padding:2rem 0;text-align:center;}.stat-card{margin-bottom:1rem;}}

@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Entorno virtual
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Base de datos
+*.db
+*.sqlite
+*.sqlite3
+instance/
+*.db-journal
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Archivos de configuración
+.env
+*.log
+*.pot
+*.pyc
+
+# Archivos de caché
+.cache/
+.mypy_cache/
+.ruff_cache/
+
+# Archivos de backup
+*.bak
+*.backup
+
+# Archivos de secreto
+*.key
+*.pem
+*.crt

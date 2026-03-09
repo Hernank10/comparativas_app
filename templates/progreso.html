@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-4">
+    <h1 class="mb-4">Mi Progreso</h1>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card"><div class="card-body"><canvas id="weeklyChart" height="200"></canvas></div></div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card text-center mb-4"><h3 id="correctAnswers">0</h3><p class="text-muted">Respuestas Correctas</p></div>
+            <div class="stat-card text-center mb-4"><h3 id="currentStreak">0</h3><p class="text-muted">Racha Actual</p></div>
+            <div class="stat-card text-center"><h3 id="masteryLevel">0%</h3><p class="text-muted">Nivel de Dominio</p></div>
+        </div>
+    </div>
+    <div class="row mt-4"><div class="col-md-6"><div class="card"><div class="card-body"><canvas id="typeChart" height="200"></canvas></div></div></div></div>
+</div>
+<script>
+fetch('/api/progreso').then(r=>r.json()).then(data=>{
+    document.getElementById('correctAnswers').textContent=data.stats.correctas;
+    document.getElementById('currentStreak').textContent=data.stats.racha;
+    document.getElementById('masteryLevel').textContent=data.stats.maestria.toFixed(1)+'%';
+    new Chart(document.getElementById('weeklyChart'),{type:'line',data:{labels:data.weekly.map(d=>d.date),datasets:[{label:'Ejercicios',data:data.weekly.map(d=>d.completed),borderColor:'#2E86C1'}]}});
+    new Chart(document.getElementById('typeChart'),{type:'doughnut',data:{labels:Object.keys(data.by_type),datasets:[{data:Object.values(data.by_type).map(t=>t.correctas),backgroundColor:['#2E86C1','#3498DB','#5DADE2']}]}});
+});
+</script>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-4">
+    <h1 class="mb-4">Teoría de las Estructuras Comparativas</h1>
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-primary"><i class="bi bi-lightbulb"></i> Comparaciones Válidas</h5>
+                    <p class="card-text">Deben comparar elementos distintos y comparables. Evita redundancias y comparaciones ilógicas.</p>
+                    <div class="mt-3"><span class="badge bg-success me-2">✅ Correcto</span><small>"Tiene tantos libros como amigos"</small></div>
+                    <div class="mt-2"><span class="badge bg-danger me-2">❌ Incorrecto</span><small>"*Tiene tantos hijos como hijos"</small></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-primary"><i class="bi bi-puzzle"></i> Estructura 'de lo + adjetivo'</h5>
+                    <p class="card-text">Solo algunos adjetivos se nominalizan correctamente con esta estructura.</p>
+                    <div class="mt-3"><span class="badge bg-success me-2">✅ Aceptable</span><small>"más de lo necesario"</small></div>
+                    <div class="mt-2"><span class="badge bg-danger me-2">❌ Evitar</span><small>"*más de lo útil"</small></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
